@@ -1,0 +1,76 @@
+:root {
+    --primary: #FF9442;
+    --primary-light: #FFEADA;
+    --secondary: #7A42FF;
+    --secondary-light: #D1BDFF;
+    --red: #f84e5e;
+    --dark: #0b0b29;
+}
+
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1180px
+);
+$custom-container-max-width: (
+  lg: 960px,
+  xl: 1180px
+);
+
+
+//Screen sizes
+$screen-extra-small: 320px;
+$screen-small: 576px;
+$screen-middle: 768px;
+$screen-large: 992px;
+$screen-extralarge: 1200px;
+$screen-hd: 1900px;
+
+
+$element-size-sm: 1em;
+$element-size-md: 1.5em;
+$element-size-lg: 2em;
+$element-size-xl: 4em; 
+
+// Extra Small devices (landscape phones, 320 and up)
+@mixin min-xs {
+    @media (min-width: $screen-extra-small) {
+        @content;
+    }
+}
+
+// Small devices (landscape phones, 576px and up)
+@mixin min-sm {
+    @media (min-width: $screen-small) {
+        @content;
+    }
+}
+
+// Medium devices (tablets, 768px and up)
+@mixin min-md {
+    @media (min-width: $screen-middle) {
+        @content;
+    }
+}
+
+// Large devices (desktops, 992px and up)
+@mixin min-lg {
+    @media (min-width: $screen-large) {
+        @content;
+    }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@mixin min-xl {
+    @media (min-width: $screen-extralarge) {
+        @content;
+    }
+}
+
+@mixin min-hd {
+    @media (min-width: $screen-hd) {
+        @content;
+    }
+}

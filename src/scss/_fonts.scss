@@ -1,0 +1,118 @@
+@font-face {
+    font-family: 'orangepaper-shop';
+    src:  url('../fonts/orangepaper-shop.eot?sppu92');
+    src:  url('../fonts/orangepaper-shop.eot?sppu92#iefix') format('embedded-opentype'),
+      url('../fonts/orangepaper-shop.ttf?sppu92') format('truetype'),
+      url('../fonts/orangepaper-shop.woff?sppu92') format('woff'),
+      url('../fonts/orangepaper-shop.svg?sppu92#orangepaper-shop') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  [class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'orangepaper-shop' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+  
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-instagram:before {
+    content: "\e900";
+  }
+  .icon-shop-bag:before {
+    content: "\e901";
+  }
+  .icon-ticktoc:before {
+    content: "\e902";
+  }
+  .icon-user:before {
+    content: "\e903";
+  }
+  .icon-whatsapp:before {
+    content: "\e904";
+  }
+  .icon-arrow-down:before {
+    content: "\e905";
+  }
+  .icon-arrow-down-circle:before {
+    content: "\e906";
+  }
+  .icon-arrow-left:before {
+    content: "\e907";
+  }
+  .icon-arrow-left-circle:before {
+    content: "\e908";
+  }
+  .icon-arrow-right:before {
+    content: "\e909";
+  }
+  .icon-arrow-right-circle:before {
+    content: "\e90a";
+  }
+  .icon-arrow-up:before {
+    content: "\e90b";
+  }
+  .icon-arrow-up-circle:before {
+    content: "\e90c";
+  }
+  .icon-chevron-down:before {
+    content: "\e90d";
+  }
+  .icon-chevron-left:before {
+    content: "\e90e";
+  }
+  .icon-chevron-right:before {
+    content: "\e90f";
+  }
+  .icon-chevron-up:before {
+    content: "\e910";
+  }
+  .icon-menu:before {
+    content: "\e911";
+  }
+  .icon-minus:before {
+    content: "\e912";
+  }
+  .icon-minus-circle:before {
+    content: "\e913";
+  }
+  .icon-plus:before {
+    content: "\e914";
+  }
+  .icon-plus-circle:before {
+    content: "\e915";
+  }
+  .icon-plus-square:before {
+    content: "\e916";
+  }
+  .icon-search:before {
+    content: "\e917";
+  }
+  .icon-trash:before {
+    content: "\e918";
+  }
+  .icon-trash-2:before {
+    content: "\e919";
+  }
+  .icon-close:before {
+    content: "\e91a";
+  }
+  .icon-close-circle:before {
+    content: "\e91b";
+  }
+  .icon-zoom-in:before {
+    content: "\e91c";
+  }
+  .icon-zoom-out:before {
+    content: "\e91d";
+  }
+  

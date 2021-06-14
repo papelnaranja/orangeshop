@@ -1,0 +1,60 @@
+@import '../../scss/vars';
+
+#mainNavbar {
+    background-color: white;
+    padding-left:15px;
+    padding-right: 15px;
+    .container {
+        display:flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+}
+#mainNavbar a.navbar-brand {
+    margin-right: auto;
+}
+#mainNavbar ul.navbar-nav {
+    display: none;
+    @include min-lg {
+        list-style: none;
+        padding: 0px;
+        display: flex;
+    }
+}
+
+li.nav-item {
+    margin-right: 10px;
+    &:last-child {
+        margin-right: 0px;
+    }
+}
+a.nav-link {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 700;
+    &:hover, &:active, &:focus {
+        color:var(--primary)
+    }
+}
+
+ul.navbar-utils {
+    padding-left: 10px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    li.util-item {
+        margin-right: 10px;
+    }
+    a {
+        color:var(--dark);
+        text-decoration: none;
+    }
+}
+
+.navabar-sm-menu {
+    display:block;
+    @include min-lg {
+        display: none;
+    }
+}
