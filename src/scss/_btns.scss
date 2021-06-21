@@ -1,0 +1,20 @@
+.btn {
+    display: inline-block;
+    border: 0px;
+    padding: 11px 13px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    &:hover, &:active, &:focus {
+        background-color: darken(rgb(239, 239, 239), 30%);
+    }
+}
+
+.btn-primary {
+    @extend .btn;
+    background-color: var(--primary);
+    color:white;
+    &:hover, &:active, &:focus {
+        background-color: darken($primary, 10%);
+    }
+}

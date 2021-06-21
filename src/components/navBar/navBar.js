@@ -8,8 +8,8 @@ import './navBar.scss';
 export const NavBar = () => {
     return <nav id="mainNavbar" className="navbar">
             <div className="container">
-                <a className="navbar-brand" href="/index">
-                    <img src={logo} alt="logo-orangepaper" width="150" height="80" />
+                <a className="navbar-brand" href="#">
+                    <img src={logo} alt="logo-orangepaper" width="150" height="80" className="brand-logo" />
                 </a>
 
                 <ul className="navbar-nav">

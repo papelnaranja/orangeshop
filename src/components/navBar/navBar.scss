@@ -8,11 +8,17 @@
         display:flex;
         align-items: center;
         justify-content: flex-end;
+        flex-wrap: wrap;
     }
 }
 #mainNavbar a.navbar-brand {
     margin-right: auto;
 }
+.brand-logo {
+    max-width: 100%;
+    height: auto;
+}
+
 #mainNavbar ul.navbar-nav {
     display: none;
     @include min-lg {
@@ -20,6 +26,20 @@
         padding: 0px;
         display: flex;
     }
+}
+
+.offcanvas #mainNavbar ul.navbar-nav {
+    position: fixed;
+    display: block;
+    padding: 20px;
+    top: 0;
+    right: 0;
+    list-style: none;
+    width: 250px;
+    background-color: white;
+    margin: 0px;
+    height: 100%;
+    display: block;
 }
 
 li.nav-item {
