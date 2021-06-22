@@ -1,8 +1,18 @@
+
 .container {
+    --gutter: 15px;
     display:block;
     margin:0 auto;
     width: 100%;
     max-width: 1400px;
-    // padding-right: 15px;
-    // padding-left: 15px;
+    padding-right: calc(var(--gutter) / -2);
+    padding-left: calc(var(--gutter) / -2);
+
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: calc(var(--gutter) / -2);
+    margin-left: calc(var(--gutter) / -2);
 }

@@ -5,6 +5,7 @@
     border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
+    text-decoration: none;
     &:hover, &:active, &:focus {
         background-color: darken(rgb(239, 239, 239), 30%);
     }

@@ -1,6 +1,5 @@
 import logo from '../../images/logo-orange.svg';
 import {CartWidget} from '../cartWidget/cartWidget';
-import {ItemListContainer} from '../itemListContainer/itemListContainer';
 
 import './navBar.scss';
 

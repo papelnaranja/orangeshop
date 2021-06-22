@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-
+import './itemCount.scss';
 /*
 *
 * A diferencia del ejemplo que sale en el ejercicio, no use onAdd como props 

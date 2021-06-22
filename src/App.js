@@ -8,9 +8,7 @@ export const App  = () => {
         <div className="home">
             <NavBar />
             <main>
-                <div className="container">
-                    <ItemListContainer greeting={saludos}></ItemListContainer>
-                </div>
+                <ItemListContainer greeting={saludos}></ItemListContainer>
             </main>
 
         </div>
