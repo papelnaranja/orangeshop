@@ -16,3 +16,22 @@
     margin-right: calc(var(--gutter) / -2);
     margin-left: calc(var(--gutter) / -2);
 }
+
+.col {
+    padding-left: calc(var(--gutter)/2);
+    padding-right: calc(var(--gutter)/2);
+    width:100%;
+}
+
+.col-4 {
+    @extend .col;
+    @include min-lg {
+        width: calc(100%/4);
+    }
+}
+.col-6 {
+    @extend .col;
+    @include min-lg {
+        width: calc(100%/2);
+    }
+}

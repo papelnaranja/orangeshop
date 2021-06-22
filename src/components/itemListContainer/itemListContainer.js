@@ -27,18 +27,23 @@ export function ItemListContainer(props) {
                 </div>
             </section>
             <section className="temporal">
-                <div className="card product-card">
-                    <div className="row">
-                        <div className="col-6">
-                            <img src="https://picsum.photos/800" alt="" className="img-fluid"/>
-                        </div>
-                        <div className="col-6">
-                            <ItemCount stock={5} initial={1} />
+                <h2 className="section-title">Espacio temporal</h2>
+                <div className="container">
+
+                    <div className="card product-card">
+                        <div className="row">
+                            <div className="col-6">
+                                <img src="https://picsum.photos/600" alt="" className="img-fluid"/>
+                            </div>
+                            <div className="col-6">
+                                <ItemCount stock={5} initial={1} />
+
+                            </div>
 
                         </div>
-
                     </div>
                 </div>
+
 
             </section>
 

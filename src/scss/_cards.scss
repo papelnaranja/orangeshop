@@ -8,3 +8,24 @@
     padding:1rem;
 
 }
+
+.card-fetaured-image {
+    width: 100%;
+    overflow: hidden;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.card-fetaured-title {
+    margin-top: 0px;
+    margin-bottom: 1rem;
+}
+
+.card-fetaured-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 1rem 0px;
+}
+.card-featured-product {
+    margin-bottom:2rem;
+}

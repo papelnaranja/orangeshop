@@ -8,7 +8,7 @@ import React from 'react';
 export function Item({id, title, price, pictureUrl, pictureAlt }) {
  //{ id, title, price, pictureUrl }
     return(
-        <div className="col-md-4">
+        <div className="col-4">
             <div id={id} className="card card-featured-product">
                 <img className="card-fetaured-image" src={pictureUrl} alt={pictureAlt} />
                 <div className="card-body">
