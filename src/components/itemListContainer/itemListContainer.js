@@ -4,9 +4,22 @@ import {ItemList} from '../itemList/itemList.js'
 
 export function ItemListContainer(props) {
     //Acá va ir la Logica de los productos ? 
+
+    const onAdd = () => {
+        /* Por mientas esta función muestra un alert  */
+        const counter = document.querySelector('#counter').value;
+        if(counter > 0) {
+            alert(`Garcias por tu compra!`);
+        } else {
+            alert(`Minimo 1 item para la compra`);
+        }
+    }
+
     return (
 
-        /*Esto se tiene que cambiar a un layout en algún momento */
+        /*
+        * Esto se tiene que cambiar a un layout en algún momento 
+        */
         <>
             <section className="home-slider">
                 <div className="container">
@@ -33,10 +46,10 @@ export function ItemListContainer(props) {
                     <div className="card product-card">
                         <div className="row">
                             <div className="col-6">
-                                <img src="https://picsum.photos/600" alt="" className="img-fluid"/>
+                                <img src="https://picsum.photos/600" alt="descripcion" className="img-fluid"/>
                             </div>
                             <div className="col-6">
-                                <ItemCount stock={5} initial={1} />
+                                <ItemCount stock={0} initial={0} onAdd={onAdd} />
 
                             </div>
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import './itemCount.scss';
 /*
 *
@@ -6,9 +6,11 @@ import './itemCount.scss';
 * porque lo estoy ejecutando como función al evento click del botón Añadir.
 *
 */
-export const ItemCount = ({stock, initial}) => {   
+export const ItemCount = ({stock, initial, onAdd}) => {   
     
     const [cantidad, setCantidad] = useState(initial)
+    const [habilitado, setHabilitado] = useState(false)
+
 
     const handleChange = (e) =>{
         const inputCantidad = parseInt(e.target.value)
@@ -37,20 +39,13 @@ export const ItemCount = ({stock, initial}) => {
             setCantidad(cantidad + 1)
         }
     }
-    const onAdd = () => {
-        /* Por algún motivo, que aun no entiendo la consola siempre me mustra -1 elementos al valor actual de cantidad */
-        console.log(cantidad)
-        if(cantidad > stock) {
-            setCantidad(stock)
-            // Doble check, esto no se debería ver
-            alert(`solo tenemos ${stock} de este producto, se agregara ese valor`)
-        } else if (cantidad < initial) {
-             // Doble check, esto no se debería ver
-            alert(`El valor minimo de producto es ${initial}`)
-        } else {
-            alert(`📢 Se agregaron ${cantidad} productos al carro. Próximamente se mostrá en la parte superior`);
-        } 
-    }
+    /* Si el stock al cargarse es 0, el botón se deshabilitará */
+    useEffect(() => {
+        if(stock == 0) {
+            setHabilitado(true);
+        }
+    },[])
+
 
     return(
         <div className="widget-conatador">
@@ -59,7 +54,7 @@ export const ItemCount = ({stock, initial}) => {
                 <input  type="number"  id="counter"  className="field field-counter" value={cantidad} onChange={handleChange} />
                 <button  type="button"  className="btn-count btn-plus" onClick={onIncrease}><i className="icon-plus"></i></button>
             </div>
-            <button type="button" className="btn btn-primary" onClick={onAdd}>Añadir Producto</button>
+            <button type="button" id="addToCar" className="btn btn-secondary" onClick={onAdd} disabled={habilitado}>Añadir Producto</button>
         </div>
     );
 }

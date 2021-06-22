@@ -18,4 +18,21 @@
     &:hover, &:active, &:focus {
         background-color: darken($primary, 10%);
     }
+    [disabled] {
+        cursor: not-allowed;
+        background-color: lighten($primary, 10%);
+    }
+}
+
+.btn-secondary {
+    @extend .btn;
+    background-color: var(--secondary);
+    color:white;
+    &:hover, &:active, &:focus {
+        background-color: darken($secondary, 10%);
+    }
+    &[disabled] {
+        cursor: not-allowed;
+        background-color: lighten($secondary, 10%);
+    }
 }
