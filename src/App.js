@@ -1,19 +1,20 @@
 import './App.scss';
 import {NavBar} from './components/navBar/navBar';
 import {ItemListContainer} from './components/itemListContainer/itemListContainer';
+import {BrowserRouter as Router,Switch,Route} from "react-router-dom";
+import {Home} from './pages/home/home.js'
 
 export const App  = () => {
-    const saludos = `Esta es mi nueva Tienda 🎀 📐`; 
     return (
-        <div className="home">
-            <NavBar />
-            <main>
-                <ItemListContainer greeting={saludos}></ItemListContainer>
-            </main>
-
-        </div>
+        <>
+            <Router>
+                <NavBar />
+                <Switch>
+                    <Route exact path="/">
+                        <Home />
+                    </Route>
+                </Switch>
+            </Router>
+        </>
     ) 
 }
-  
-
-  

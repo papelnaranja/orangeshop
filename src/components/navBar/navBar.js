@@ -12,6 +12,8 @@ export const NavBar = () => {
                 </a>
 
                 <ul className="navbar-nav">
+                
+                    <li className="nav-item"><a className="nav-link" href="#">Inicio</a></li>
                     <li className="nav-item"><a className="nav-link" href="#">Libretas</a></li>
                     <li className="nav-item"><a className="nav-link" href="#">Lapices</a></li>
                     <li className="nav-item"><a className="nav-link" href="#">Laminas</a></li>
