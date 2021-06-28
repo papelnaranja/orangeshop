@@ -41,7 +41,7 @@ export const ItemCount = ({stock, initial, onAdd}) => {
     }
     /* Si el stock al cargarse es 0, el botón se deshabilitará */
     useEffect(() => {
-        if(stock == 0) {
+        if(stock === 0) {
             setHabilitado(true);
         }
     },[])

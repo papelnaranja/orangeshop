@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import {ItemCount} from '../itemCount/itemCount.js'
 import {ItemList} from '../itemList/itemList.js'
 import {Item} from '../item/item.js'
-
+import {ItemDetailContainer} from '../itemDetailContainer/itemDetailContainer.js'
 
 export function ItemListContainer(props) {
     /* 
@@ -15,28 +14,30 @@ export function ItemListContainer(props) {
             id: 'pro-01',
             picture: 'https://picsum.photos/300/200',
             pictureAlt: 'producto 01',
-            price: '$50.000',
+            price: 5000,
         },{
             title: 'Producto 2',
             id: 'pro-02',
             picture: 'https://picsum.photos/300/200',
             pictureAlt: 'producto 02',
-            price: '$50.000',
+            price: 2000,
         },{
             title: 'Producto 3',
             id: 'pro-03',
             picture: 'https://picsum.photos/300/200',
             pictureAlt: 'producto 03',
-            price: '$50.000',
+            price: 300,
         },{
             title: 'Producto 4',
             id: 'pro-04',
             picture: 'https://picsum.photos/300/200',
             pictureAlt: 'producto 04',
-            price: '$50.000',
+            price: 6000,
         } ]
 
-        /* Nota Para mi: Si no se pasa el segundo parametro de UseEffect va a continuar ejecutandose, la solución es pasar un array vacio */
+        /* Nota Para mi: Si no se pasa el segundo parametro de UseEffect va a continuar ejecutandose, la solución es pasar un array vacio 
+        * UseEffect Hook: Se ejecuta despues del pimer renderizado y despues de cada actualización
+        */
         useEffect(() => {
 
             const callProductos = new Promise( (resolve, reject) => {
@@ -50,7 +51,7 @@ export function ItemListContainer(props) {
                     console.log(result)
                     setCargaProductos(
                         result.map(item => <Item key={item.id} id={item.id} title={item.title} pictureUrl={item.picture} pictureAlt={item.pictureAlt} price={item.price} />
-                    )
+                        )
                     );
                 }, 
                 err => {
@@ -93,6 +94,12 @@ export function ItemListContainer(props) {
             <section className="home-featured">
                 <h2 className="section-title">Destacados</h2>
                 <div className="container">
+                    {/* 
+                    * Nota para mi:
+                    * ItemList invoca una vista que tiene una fila, dentro de ella van los productos de CargaProducto.
+                    * cargaProductos es el estado, que al usar el efecto, al resolverse llama a Item, con una serie de atributos.
+                    * Item a su vez es la vista de cada uno de las tarjetas de productos 
+                    */}
                     <ItemList productos={cargaProductos} />   
 
 
@@ -100,22 +107,13 @@ export function ItemListContainer(props) {
             </section>
             <section className="temporal">
                 <h2 className="section-title">Espacio temporal</h2>
-                <div className="container">
-
-                    <div className="card product-card">
-                        <div className="row">
-                            <div className="col-6">
-                                <img src="https://picsum.photos/600" alt="descripcion" className="img-fluid"/>
-                            </div>
-                            <div className="col-6">
-                                <ItemCount stock={0} initial={0} onAdd={onAdd} />
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
+                {/* 
+                * Nota para mi:
+                * La función onAdd esta pasando por 3 componentes antes de llegar al lugar donde se usa.
+                * ItemDetailContainer => ItemDetail => ItemCount
+                */}
+                <ItemDetailContainer onAdd={onAdd}/>
+              
 
             </section>
 
