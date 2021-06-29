@@ -2,6 +2,8 @@ import './App.scss';
 import {NavBar} from './components/navBar/navBar';
 import {ItemListContainer} from './components/itemListContainer/itemListContainer';
 import {ItemDetailContainer} from './components/itemDetailContainer/itemDetailContainer';
+import {NoMatch} from './components/noMatch/noMatch.js';
+
 import {BrowserRouter as Router,Switch,Route} from "react-router-dom";
 
 const saludos = `Esta es mi nueva Tienda 🎀 📐`; 
@@ -80,6 +82,7 @@ const productList = [{
 
 ]
 
+
 export const App  = () => {
     
     
@@ -96,6 +99,9 @@ export const App  = () => {
                     </Route>
                     <Route path="/item/:itemId">
                         <ItemDetailContainer productList={productList}/>
+                    </Route>
+                    <Route path="*">
+                        <NoMatch />
                     </Route>
                 </Switch>
             </Router>

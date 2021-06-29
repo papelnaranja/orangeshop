@@ -1,5 +1,6 @@
 import React from 'react'
 import {ItemCount} from '../itemCount/itemCount.js'
+import './itemDetail.scss'
 
 /* este item se debe llamar en itemDetailContainer */
 
