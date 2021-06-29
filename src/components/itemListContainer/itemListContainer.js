@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import {ItemList} from '../itemList/itemList.js'
-import {Item} from '../item/item.js'
 import { useParams } from 'react-router-dom'
 
 export function ItemListContainer({greeting, productList}) {
@@ -9,7 +8,7 @@ export function ItemListContainer({greeting, productList}) {
     console.log('category id:',categoryId)
 
 
-    const [cargaProductos, setCargaProductos] = useState('Cargando..')
+    const [cargaProductos, setCargaProductos] = useState(undefined)
 
         /* Nota Para mi: Si no se pasa el segundo parametro de UseEffect va a continuar ejecutandose, la solución es pasar un array vacio 
         * UseEffect Hook: Se ejecuta despues del pimer renderizado y despues de cada actualización
@@ -27,16 +26,15 @@ export function ItemListContainer({greeting, productList}) {
                     if(categoryId !== undefined) {
                       
                         setCargaProductos(
-                            result
-                            .filter( item => item.cat == categoryId )
-                            .map( item => 
-                                <Item key={item.id} id={item.id} title={item.title} pictureUrl={item.picture} pictureAlt={item.pictureAlt} price={item.price} category={item.cat}  />
-                            )
+                            result.filter( item => item.cat == categoryId )
+                            // .map( item => 
+                            //     <Item key={item.id} id={item.id} title={item.title} pictureUrl={item.picture} pictureAlt={item.pictureAlt} price={item.price} category={item.cat}  />
+                            // )
                         );
                     } else {
                         setCargaProductos(
-                            result.map(item => <Item key={item.id} id={item.id} title={item.title} pictureUrl={item.picture} pictureAlt={item.pictureAlt} price={item.price} category={item.cat}  />
-                            )
+                            result
+                            //result.map(item => <Item key={item.id} id={item.id} title={item.title} pictureUrl={item.picture} pictureAlt={item.pictureAlt} price={item.price} category={item.cat}  />)
                         );
                     }
 

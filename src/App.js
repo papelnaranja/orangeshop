@@ -81,6 +81,7 @@ const productList = [{
     }
 
 ]
+console.log('Es array?', Array.isArray(productList))
 
 
 export const App  = () => {
