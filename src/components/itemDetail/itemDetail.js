@@ -1,11 +1,33 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {ItemCount} from '../itemCount/itemCount.js'
 import './itemDetail.scss'
 import { Player } from '@lottiefiles/react-lottie-player';
 import loader from '../../lotties/loader'
+import {Link} from "react-router-dom";
+
+
 
 /* este item se debe llamar en itemDetailContainer */
-export function ItemDetail({items, onAdd}) {
+export function ItemDetail({items}) {
+
+    const [agregado , setAgregado] = useState('');
+    
+    const onAdd = (cantidad, event) => {
+        if(cantidad > 0) {
+           setAgregado(cantidad);
+           event.target.classList.add('hide')
+
+        } else {
+            alert(`⚠️ Minimo 1 item para la compra`);
+        }
+    }
+
+    const reseteaElBoton = () => {
+        /*escuchar si el onChange del input del item count cmabio */
+        setAgregado()
+    }
+
+
 
     return (
         <>
@@ -23,6 +45,8 @@ export function ItemDetail({items, onAdd}) {
                             <p>{items[0].description}</p>
                         
                             <ItemCount stock={5} initial={0} onAdd={onAdd} />
+                            { agregado ? (<Link to="/cart"><button id="btnFinish" type="button" className="btn btn-primary"> Terminar Compra</button></Link>) : ''}
+                            
 
                         </div>
 

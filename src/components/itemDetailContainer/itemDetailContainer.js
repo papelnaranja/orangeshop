@@ -6,15 +6,6 @@ export function ItemDetailContainer({productList}) {
     const [estadoItem, setEstadoItem ] = useState(undefined);
     const {itemId} = useParams(); 
 
-    const onAdd = () => {
-        /* Por mientas esta función muestra un alert  */
-        const counter = document.querySelector('#counter').value;
-        if(counter > 0) {
-            alert(`✅ Garcias por tu compra!`);
-        } else {
-            alert(`⚠️ Minimo 1 item para la compra`);
-        }
-    }
 
     useEffect(() => {
         const getItems = new Promise( (resolve, reject) => {
@@ -41,7 +32,7 @@ export function ItemDetailContainer({productList}) {
     return(
     <main>
         <div className="container">
-            <ItemDetail  items={estadoItem} onAdd={onAdd} />
+            <ItemDetail  items={estadoItem} />
         </div>
     </main>
     );

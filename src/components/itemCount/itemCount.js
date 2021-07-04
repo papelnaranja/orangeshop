@@ -54,7 +54,10 @@ export const ItemCount = ({stock, initial, onAdd}) => {
                 <input  type="number"  id="counter"  className="field field-counter" value={cantidad} onChange={handleChange} />
                 <button  type="button"  className="btn-count btn-plus" onClick={onIncrease}><i className="icon-plus"></i></button>
             </div>
-            <button type="button" id="addToCar" className="btn btn-secondary" onClick={onAdd} disabled={habilitado}>Añadir Producto</button>
+            {/* Nota para mi: 
+            * Si a OnClick no se le pasa la función onAdd dentro de otra función se ejecuta al cargar la app y genera caos y no funciona nada
+             */}
+            <button type="button" id="addToCar" className={'btn btn-secondary'} onClick={(event)=>{onAdd(cantidad, event)}} disabled={habilitado}>Añadir Producto</button>
         </div>
     );
 }

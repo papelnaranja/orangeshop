@@ -101,6 +101,11 @@ export const App  = () => {
                     <Route path="/item/:itemId">
                         <ItemDetailContainer productList={productList}/>
                     </Route>
+                    <Route path="/cart">
+                        <>
+                            <h1>Este ser el futuro carrito</h1>
+                        </> 
+                    </Route>
                     <Route path="*">
                         <NoMatch />
                     </Route>
