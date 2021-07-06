@@ -1,11 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import './itemCount.scss';
-/*
-*
-* A diferencia del ejemplo que sale en el ejercicio, no use onAdd como props 
-* porque lo estoy ejecutando como función al evento click del botón Añadir.
-*
-*/
+
+
 export const ItemCount = ({stock, initial, onAdd}) => {   
     
     const [cantidad, setCantidad] = useState(initial)
@@ -15,8 +11,15 @@ export const ItemCount = ({stock, initial, onAdd}) => {
     const handleChange = (e) =>{
         const inputCantidad = parseInt(e.target.value)
 
+
+        /*Pregunta para el tutor:
+        * Quiero que al cambiar el valor del input, se vuelva activar el botón de agregar al carrito 
+        * Para esto tendría que mover esta función al contenedor padre ? o ¿se puede "escuchar" el onChange desde el padre, para poder re-redereizar?
+        * 
+        */
         if(inputCantidad >= stock) {
             setCantidad(stock)
+
         } else if (inputCantidad < initial) {
             setCantidad(initial)
         } else {
@@ -41,11 +44,12 @@ export const ItemCount = ({stock, initial, onAdd}) => {
     }
     /* Si el stock al cargarse es 0, el botón se deshabilitará */
     useEffect(() => {
-        if(stock === 0) {
+        if(stock === 0 || cantidad === 0) {
             setHabilitado(true);
+        } else {
+            setHabilitado(false);
         }
-    },[])
-
+    },[cantidad])
 
     return(
         <div className="widget-conatador">

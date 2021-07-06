@@ -3,8 +3,11 @@ import {NavBar} from './components/navBar/navBar';
 import {ItemListContainer} from './components/itemListContainer/itemListContainer';
 import {ItemDetailContainer} from './components/itemDetailContainer/itemDetailContainer';
 import {NoMatch} from './components/noMatch/noMatch.js';
-
 import {BrowserRouter as Router,Switch,Route} from "react-router-dom";
+import { Cart } from './components/cart/cart';
+
+
+
 
 const saludos = `Esta es mi nueva Tienda 🎀 📐`; 
 
@@ -83,10 +86,24 @@ const productList = [{
 ]
 console.log('Es array?', Array.isArray(productList))
 
+/*
+* Solo provando contexto 
+* import { useContext } from 'react';
+* import { CartContext } from './context/cartContext';
+*/
 
 export const App  = () => {
-    
-    
+
+    /* El hook tienen que ir dentro de app o va fallar.
+    * Se importa la fn de React useContext, para usar el contexto
+    * Se importa la fn personalizada, CartContext en nuestro caso
+    * Luego se le pasa fn custom a UseContext y se puede usar 
+    * 
+    * 
+    * const testiando = useContext(CartContext);
+    * console.log('testiando', testiando);
+    */
+
     return (
         <>
             <Router>
@@ -102,9 +119,7 @@ export const App  = () => {
                         <ItemDetailContainer productList={productList}/>
                     </Route>
                     <Route path="/cart">
-                        <>
-                            <h1>Este ser el futuro carrito</h1>
-                        </> 
+                        <Cart/>
                     </Route>
                     <Route path="*">
                         <NoMatch />

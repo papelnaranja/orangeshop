@@ -48,4 +48,7 @@ input.field.field-counter {
 
 #addToCar {
   margin:1rem 0px;
+  [disabled] {
+    opacity: 0.5;
+  }
 }
