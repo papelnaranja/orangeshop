@@ -11,15 +11,8 @@ export const ItemCount = ({stock, initial, onAdd}) => {
     const handleChange = (e) =>{
         const inputCantidad = parseInt(e.target.value)
 
-
-        /*Pregunta para el tutor:
-        * Quiero que al cambiar el valor del input, se vuelva activar el botón de agregar al carrito 
-        * Para esto tendría que mover esta función al contenedor padre ? o ¿se puede "escuchar" el onChange desde el padre, para poder re-redereizar?
-        * 
-        */
         if(inputCantidad >= stock) {
             setCantidad(stock)
-
         } else if (inputCantidad < initial) {
             setCantidad(initial)
         } else {
