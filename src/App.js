@@ -94,7 +94,8 @@ console.log('Es array?', Array.isArray(productList))
 
 export const App  = () => {
 
-    /* El hook tienen que ir dentro de app o va fallar.
+    /*
+    * El hook tienen que ir dentro de app o va fallar.
     * Se importa la fn de React useContext, para usar el contexto
     * Se importa la fn personalizada, CartContext en nuestro caso
     * Luego se le pasa fn custom a UseContext y se puede usar 

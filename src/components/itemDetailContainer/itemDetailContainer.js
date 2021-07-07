@@ -12,7 +12,7 @@ export function ItemDetailContainer({productList}) {
             setTimeout(function(){
                 //resolve(produtctoTemporal)
                 resolve(productList)
-            }, 2000); 
+            }, 10); 
             
         })
         getItems.then(

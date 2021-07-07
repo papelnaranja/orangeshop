@@ -10,7 +10,9 @@ export function ItemListContainer({greeting, productList}) {
 
     const [cargaProductos, setCargaProductos] = useState(undefined)
 
-        /* Nota Para mi: Si no se pasa el segundo parametro de UseEffect va a continuar ejecutandose, la solución es pasar un array vacio 
+        /*
+        * Nota Para mi:
+        * Si no se pasa el segundo parametro de UseEffect va a continuar ejecutandose, la solución es pasar un array vacio 
         * UseEffect Hook: Se ejecuta despues del pimer renderizado y despues de cada actualización
         */
         useEffect(() => {
@@ -18,7 +20,7 @@ export function ItemListContainer({greeting, productList}) {
             const callProductos = new Promise( (resolve, reject) => {
                 setTimeout(function(){
                     resolve(productList);
-                }, 2000); 
+                }, 10); 
                 
             })
             callProductos.then( 
@@ -27,15 +29,9 @@ export function ItemListContainer({greeting, productList}) {
                       
                         setCargaProductos(
                             result.filter( item => item.cat == categoryId )
-                            // .map( item => 
-                            //     <Item key={item.id} id={item.id} title={item.title} pictureUrl={item.picture} pictureAlt={item.pictureAlt} price={item.price} category={item.cat}  />
-                            // )
                         );
                     } else {
-                        setCargaProductos(
-                            result
-                            //result.map(item => <Item key={item.id} id={item.id} title={item.title} pictureUrl={item.picture} pictureAlt={item.pictureAlt} price={item.price} category={item.cat}  />)
-                        );
+                        setCargaProductos(result);
                     }
 
                 }, 
