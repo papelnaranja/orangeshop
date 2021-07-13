@@ -1,20 +1,20 @@
 
 .container {
-    --gutter: 15px;
+    --gutter: 14px;
     display:block;
     margin:0 auto;
     width: 100%;
     max-width: 1400px;
-    padding-right: calc(var(--gutter) / -2);
-    padding-left: calc(var(--gutter) / -2);
+    padding-right: calc(var(--gutter) /2);
+    padding-left: calc(var(--gutter) /2);
 
 }
 
 .row {
     display: flex;
     flex-wrap: wrap;
-    margin-right: calc(var(--gutter) / -2);
-    margin-left: calc(var(--gutter) / -2);
+    margin-right: calc(-(var(--gutter) /2));
+    margin-left: calc(-(var(--gutter) / 2));
 }
 
 .col {
@@ -22,16 +22,29 @@
     padding-right: calc(var(--gutter)/2);
     width:100%;
 }
-
-.col-4 {
+.col-3 {
     @extend .col;
     @include min-lg {
         width: calc(100%/4);
     }
 }
+.col-4 {
+    @extend .col;
+    @include min-lg {
+        width: calc(100%/3);
+    }
+}
+
 .col-6 {
     @extend .col;
     @include min-lg {
         width: calc(100%/2);
+    }
+}
+
+.col-8 {
+    @extend .col;
+    @include min-lg {
+        width: calc(100%/1.5);
     }
 }

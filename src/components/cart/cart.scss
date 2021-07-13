@@ -1,0 +1,74 @@
+@import '../../scss/vars';
+
+.item-row {
+  border-bottom: 1px solid #ccc;
+  padding: 1rem 0px;
+  @include min-lg {
+    display: flex;
+  }
+  .item-image-wrap {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 150px;
+  } 
+  .item-col {
+    flex:1;
+  } 
+  #addToCar {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 7px;
+    font-size: .8rem;
+  }
+  .contador {
+    max-width: 149px;
+  }
+
+  a.link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: red;
+    margin: 8px 0px;
+    display: block;
+  }
+}
+
+.item-col {
+  padding-left: 1rem;
+}
+.item-title {
+  margin-top:0px;
+  margin-bottom: 0px;
+}
+.item-subtitle {
+  margin-top: 6px;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 1rem;
+} 
+
+.item-info-wrap {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.item-info-one {
+  flex:2;
+}
+.item-info-two , .item-total {
+  flex:1;
+
+}
+.item-image {
+  width: 100%;
+}
+
+.item-info-two {
+  text-align: right;
+}
+.item-total {
+  text-align: right;
+  p {
+    font-weight: bold;
+  }
+}

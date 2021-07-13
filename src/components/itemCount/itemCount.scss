@@ -1,6 +1,9 @@
 
 .widget-conatador {
   margin-top:1rem;
+  display: flex;
+  align-items: center;
+
 }
 .contador {
     position: relative;
@@ -48,6 +51,8 @@ input.field.field-counter {
 
 #addToCar {
   margin:1rem 0px;
+  height: 48px;
+  margin-left: 10px!important;
   [disabled] {
     opacity: 0.5;
   }

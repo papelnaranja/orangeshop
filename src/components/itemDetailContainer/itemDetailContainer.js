@@ -32,7 +32,7 @@ export function ItemDetailContainer({productList}) {
     return(
     <main>
         <div className="container">
-            <ItemDetail  items={estadoItem} />
+            <ItemDetail  item={estadoItem} />
         </div>
     </main>
     );

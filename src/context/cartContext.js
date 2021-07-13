@@ -10,17 +10,18 @@ export const CartProvider = ({children}) => {
 
     console.log('products:', products)
 
-    function modificadorProductos(items, cantidad) {
-        console.log('items:', items)
-        const isInCart = products.some( product => product.item.id === items[0].id )
+    function modificadorProductos(currentProduct, cantidad) {
+        console.log('En el context currentProduct(viene del detalle):', currentProduct)
+        console.log('context product id', currentProduct.id)
+        const isInCart = products.some( product => product.item.id === currentProduct.id )
         if(!isInCart) { 
             // Crea un producto nuevo nuevo y lo agrega a productos
             const nuevoItem = {
                 item: {
-                    title: items[0].title,
-                    id: items[0].id ,
-                    picture: items[0].picture,
-                    price: items[0].price,
+                    title: currentProduct.title,
+                    id: currentProduct.id ,
+                    picture: currentProduct.picture,
+                    price: currentProduct.price,
                 },
                 quantity: cantidad
             }
@@ -36,12 +37,13 @@ export const CartProvider = ({children}) => {
             */
 
             // Busca el proucto y suma la cantidad y cambia el array 
-            products.forEach( product => {
-                if(product.item.id == items[0].id ) {
-                   return product.quantity += cantidad
-                }
-            })
-            setProducts([...products]);
+            addItem(currentProduct, cantidad)
+            // products.forEach( product => {
+            //     if(product.item.id == currentProduct[0].id ) {
+            //        return product.quantity += cantidad
+            //     }
+            // })
+            // setProducts([...products]);
 
         }
 
@@ -61,11 +63,13 @@ export const CartProvider = ({children}) => {
     }
     
     // Agregar cierta cantidad de un ítem al carrito
-    function addItem(item, cantidad) {
+    function addItem(currentProduct, cantidad) {
         // En teoria: agregaría un item y le sumaría la cantidad.
         products.forEach( product => {
-            if(product.item.id == item.id ) {
-               return product.quantity += cantidad
+            if(product.item.id == currentProduct.id ) {
+               //return product.quantity += cantidad
+               /* No va sumar la nueva cantidad, si no que remplazará la actual */
+                return product.quantity = cantidad
             }
         })
         setProducts([...products]);
@@ -73,12 +77,12 @@ export const CartProvider = ({children}) => {
     }
 
     // Remover un item del cart por usando su id.
-    function removeItem(itemId) {
+    function removeItem(currentProductId) {
         // En teoria: filta y regresa lo que es distinto
-        setProducts(products.filter(product => product.item.id !== itemId))
+        setProducts(products.filter(product => product.item.id !== currentProductId))
     }
 
-    // Remover todos los items
+    // Remover todos los products
     function clear() {
         // En toeria: limpia el array de productos.
         setProducts([]);

@@ -8,7 +8,7 @@ import { CartContext } from '../../context/cartContext.js';
 
 
 // este item se debe llamar en itemDetailContainer
-export function ItemDetail({items}) {
+export function ItemDetail({item}) {
 
     const [agregado , setAgregado] = useState('');
 
@@ -17,10 +17,12 @@ export function ItemDetail({items}) {
     
     const onAdd = (cantidad, event) => {
         if(cantidad > 0) {
+           const widget = document.querySelector('.widget-conatador')
            setAgregado(cantidad);
-           modificadorProductos(items, cantidad);
+           //limpio el dato antes de llegar al contexto
+           modificadorProductos(item[0], cantidad);
            event.target.classList.add('hide')
-
+           widget.classList.add('hide')
         } else {
             alert(`⚠️ Minimo 1 item para la compra`);
         }
@@ -28,18 +30,18 @@ export function ItemDetail({items}) {
 
     return (
         <>
-            { items ? (
+            { item ? (
 
                 <div className="card product-card">
                     <div className="row">
                         <div className="col-6">
-                            <img src={items[0].picture} alt="descripcion" className="img-fluid"/>
+                            <img src={item[0].picture} alt="descripcion" className="img-fluid"/>
                         </div>
                         <div className="col-6">
-                            <h1>{items[0].title}</h1>
-                            <span className={`product-category category-${items[0].cat}`}>{items[0].cat}</span>
-                            <p className="price">${items[0].price}</p>
-                            <p>{items[0].description}</p>
+                            <h1>{item[0].title}</h1>
+                            <span className={`product-category category-${item[0].cat}`}>{item[0].cat}</span>
+                            <p className="price">${item[0].price}</p>
+                            <p>{item[0].description}</p>
                         
                             <ItemCount stock={5} initial={0} onAdd={onAdd} />
                             { agregado ? (<Link to="/cart" id="btnFinish" className="btn btn-primary">Terminar Compra</Link>) : ''}
