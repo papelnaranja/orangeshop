@@ -5,7 +5,7 @@ import { getFirestore } from '../../firebase/firebase';
 
 
 
-export function ItemListContainer({greeting}) {
+export function ItemListContainer({greeting, productList}) {
     const {categoryId} = useParams();
     const [cargaProductos, setCargaProductos] = useState(undefined)
 
@@ -25,16 +25,16 @@ export function ItemListContainer({greeting}) {
     }
 
     useEffect(() => {
-        const db = getFirestore();
-        const allProducts = db.collection('orangepaper-products');
         //En caso de que exista una categoría se hace la llamada filtrada
         if(categoryId) {
+            const db = getFirestore();
+            const allProducts = db.collection('orangepaper-products');
             const categories = allProducts.where('cat', '==', categoryId);
             makeProductArray(categories)
-
         } else {
             //Si no se muestran todos los porductos
-            makeProductArray(allProducts)
+            setCargaProductos(productList);
+
         }
 
     }, [categoryId]);

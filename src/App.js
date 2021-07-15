@@ -22,7 +22,10 @@ const saludos = `Esta es mi nueva Tienda 🎀 📐`;
 */
 
 export const App  = () => {
-    const [categories, setCategories] = useState(undefined)
+    const [categories,  setCategories] = useState(undefined)
+    const [productList, setProductList] = useState(undefined)
+
+
     useEffect(()=>{
         const db = getFirestore();
         const itemColletion = db.collection('orangepaper-products');
@@ -31,8 +34,13 @@ export const App  = () => {
             if(querySnapshot.size === 0 ) {
                 console.log('sin resultados')
             }
-            let misCategorias = new Set()
-            querySnapshot.forEach(doc => misCategorias.add(doc.data().cat) );
+            let misCategorias = new Set();
+            let productos = [];
+            querySnapshot.forEach(doc => {
+                misCategorias.add(doc.data().cat)
+                productos.push({id: doc.id, ...doc.data()})
+            } );
+            setProductList(productos)
             setCategories(Array.from(misCategorias))
             console.log('categorias:', categories)
         })
@@ -59,7 +67,7 @@ export const App  = () => {
                     <NavBar categories={categories}/>
                     <Switch>
                         <Route exact path="/">
-                            <ItemListContainer greeting={saludos} />
+                            <ItemListContainer greeting={saludos} productList={productList}/>
                         </Route>
                         <Route path="/category/:categoryId" >
                             <ItemListContainer  />
