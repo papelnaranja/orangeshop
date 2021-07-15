@@ -4,10 +4,8 @@ import {NavLink, Link} from "react-router-dom";
 import './navBar.scss';
 
 
-export const NavBar = ({productList}) => {
-    
-    const categories = productList.map(item => item.cat)
-    const unique = [...new Set(categories)]
+
+export const NavBar = ({categories}) => {
 
     return <nav id="mainNavbar" className="navbar">
             <div className="container">
@@ -17,7 +15,7 @@ export const NavBar = ({productList}) => {
                 
                     <li className="nav-item"><NavLink exact to='/' className="nav-link" activeClassName="active" >Inicio</NavLink></li>
                     {
-                        unique.map( catName => <li key={catName} className="nav-item"><NavLink  to={`/category/${catName}`} className="nav-link" activeClassName="active" >{catName}</NavLink></li>)
+                        categories.map( catName => <li key={catName} className="nav-item"><NavLink  to={`/category/${catName}`} className="nav-link" activeClassName="active" >{catName}</NavLink></li>)
 
                     }
                 </ul>

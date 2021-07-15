@@ -20,7 +20,7 @@ export function ItemDetail({item}) {
            const widget = document.querySelector('.widget-conatador')
            setAgregado(cantidad);
            //limpio el dato antes de llegar al contexto
-           modificadorProductos(item[0], cantidad);
+           modificadorProductos(item, cantidad);
            event.target.classList.add('hide')
            widget.classList.add('hide')
         } else {
@@ -35,13 +35,13 @@ export function ItemDetail({item}) {
                 <div className="card product-card">
                     <div className="row">
                         <div className="col-6">
-                            <img src={item[0].picture} alt="descripcion" className="img-fluid"/>
+                            <img src={item.picture} alt="descripcion" className="img-fluid"/>
                         </div>
                         <div className="col-6">
-                            <h1>{item[0].title}</h1>
-                            <span className={`product-category category-${item[0].cat}`}>{item[0].cat}</span>
-                            <p className="price">${item[0].price}</p>
-                            <p>{item[0].description}</p>
+                            <h1>{item.title}</h1>
+                            <span className={`product-category category-${item.cat}`}>{item.cat}</span>
+                            <p className="price">${item.price}</p>
+                            <p>{item.description}</p>
                         
                             <ItemCount stock={5} initial={0} onAdd={onAdd} />
                             { agregado ? (<Link to="/cart" id="btnFinish" className="btn btn-primary">Terminar Compra</Link>) : ''}

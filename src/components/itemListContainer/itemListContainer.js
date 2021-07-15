@@ -1,49 +1,44 @@
 import React, {useEffect, useState} from 'react'
 import {ItemList} from '../itemList/itemList.js'
 import { useParams } from 'react-router-dom'
-//import  {dataBase } from '../../firebase/firebase';
+import { getFirestore } from '../../firebase/firebase';
 
 
-export function ItemListContainer({greeting, productList}) {
 
+export function ItemListContainer({greeting}) {
     const {categoryId} = useParams();
-    console.log('category id:',categoryId)
-
-
     const [cargaProductos, setCargaProductos] = useState(undefined)
 
-        /*
-        * Nota Para mi:
-        * Si no se pasa el segundo parametro de UseEffect va a continuar ejecutandose, la solución es pasar un array vacio 
-        * UseEffect Hook: Se ejecuta despues del pimer renderizado y despues de cada actualización
-        */
-        useEffect(() => {
 
-            const callProductos = new Promise( (resolve, reject) => {
-                setTimeout(function(){
-                    resolve(productList);
-                }, 10); 
-                
-            })
-            callProductos.then( 
-                result => {
-                    if(categoryId !== undefined) {
-                      
-                        setCargaProductos(
-                            result.filter( item => item.cat == categoryId )
-                        );
-                    } else {
-                        setCargaProductos(result);
-                    }
+    //crea el array de productos desde la collection de firebase
+    const makeProductArray = (productColletion)=> {
+        productColletion.get().then((querySnapshot) => {
+            if(querySnapshot.size === 0 ) {  console.log('sin resultados') }
+            let products = []
+            querySnapshot.forEach(doc => products.push({id: doc.id, ...doc.data()}));
+            setCargaProductos(products);
+        }).catch((error) => {
+            console.log('Error searching items', error);
+        }).finally(()=> {
+            console.log('cerrando')
+        })
+    }
 
-                }, 
-                err => {
-                    alert('Hay un error, revisa la consola');
-                    console.log(err);
-                }
-            )
+    useEffect(() => {
+        const db = getFirestore();
+        const allProducts = db.collection('orangepaper-products');
+        //En caso de que exista una categoría se hace la llamada filtrada
+        if(categoryId) {
+            const categories = allProducts.where('cat', '==', categoryId);
+            makeProductArray(categories)
 
-        }, [categoryId]);
+        } else {
+            //Si no se muestran todos los porductos
+            makeProductArray(allProducts)
+        }
+
+    }, [categoryId]);
+    console.log('cargaProductos firebase', cargaProductos )
 
     return (
 
@@ -68,7 +63,8 @@ export function ItemListContainer({greeting, productList}) {
                     * ItemList invoca una vista que tiene una fila, dentro de ella van los productos de CargaProducto.
                     * cargaProductos es el estado, que al usar el efecto, al resolverse llama a Item, con una serie de atributos.
                     * Item a su vez es la vista de cada uno de las tarjetas de productos 
-                    */}
+                    */
+                    }
                     <ItemList productos={cargaProductos} />   
 
 

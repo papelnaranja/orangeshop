@@ -12,12 +12,12 @@ var firebaseConfig = {
     measurementId: "G-2E5K260G18"
   };
 
+const app = firebase.initializeApp(firebaseConfig)
 // inicialize firebase
-const fb =  firebase.initializeApp(firebaseConfig);
+export function getFirebase() {
+  return app
+}
 
-
-
-//disponible para todo 
-export const database = fb.firestore();
-
-
+export function getFirestore() {
+  return firebase.firestore(app)
+}
