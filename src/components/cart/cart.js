@@ -2,49 +2,99 @@ import './cart.scss';
 import { CartContext } from '../../context/cartContext.js';
 import { useContext, useState, useEffect } from 'react';
 import { ItemCount } from '../itemCount/itemCount'
-import { Link } from "react-router-dom";
-
+import { Link, Redirect} from "react-router-dom";
+import {Order} from '../order/order'
+import firebase from "firebase/app";
+import 'firebase/firestore';
+import { getFirestore } from '../../firebase/firebase';
+import { Player } from '@lottiefiles/react-lottie-player';
+import loader from '../../lotties/loader'
 
 export const Cart = ()=> {
-    const {products, removeItem, clear, modificadorProductos} = useContext(CartContext)
-    const [total, setTotal] = useState(undefined);
+    const {products, removeItem, clear, modificadorProductos, generateOrder,orderId, sumTotal, total} = useContext(CartContext)
+    const [bill, setBill] = useState(undefined)
+    const [loader, setLoader] = useState(false)
+
+
     let carro = false;
     if(products.length > 0) {
         carro = true;
     }
     const onAdd = (cantidad, event, product ) => {
-        console.log('cantidad', cantidad)
-        console.log('event:', event)
-        console.log('onAdd product:', product)
-        console.log('onAdd product id:', product.item.id )
         modificadorProductos(product.item, cantidad)
     }
 
-    const sumTotal= (products) => {
-        let number = 0;
-        products.map(product => number += product.quantity * product.item.price)
-        return setTotal(number);
-        
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        generateOrder(products, e)
     }
 
-   useEffect(()=>{sumTotal(products)}, [products])
+    useEffect(()=>{sumTotal(products)}, [products])
 
-    return(
-        <main>
-            <div className="container">
-                <h1>Carro de compra</h1>
-                {!carro ? 
+    /*
+    * 🐢 Pendinete:
+    * Hay que pasarlo al cartcontext.js como función 
+    */
+    useEffect(()=>{
+        if(orderId) {
+            const db = getFirestore();
+            const firebaseOrder = db.collection('orders').doc(orderId)
+    
+            firebaseOrder.get().then((doc) => {
+            if (doc.exists) {
+                console.log("Document data:", doc.data());
+                setBill({id: doc.id, ...doc.data()})
+            } else {
+                // doc.data() will be undefined in this case
+                console.log(`la id: <${orderId}>, no se encuntra`);
+            }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+        }
+
+    },[orderId])
+    
+    
+    /* 🐢 Pendinte: 
+    /* Hay que generar el loader y crear un componente como tal para que este más ordenado */
+    if(loader == true) {
+        return(
+            <div className="loader-container">
+                <Player autoplay loop src={loader}style={{ height: '300px', width: '300px' }}></Player>
+            </div>
+        )
+    }
+
+    /* 🐢 Pendinte: 
+    /* Re-hacer esto que esta super desordenado */
+    if(!carro && !orderId){
+        return(
+            <main>
+                <div className="container">
+                    <h1>Carro de compra</h1>
                     <div className="card">
                         <div className="card-body">
                             <p>Actualmente esta vacio, busca algo en la tienda</p>
                             <Link to="/" className="btn btn-secondary">Ir al inicio</Link>
                         </div>
-                    </div> : 
-                    <div className="row">
+                    </div>
+                </div>
+            </main>
+        )
+    } 
+    else {
+        return(
+            <main>
+                <div className="container">
+                    <h1>Carro de compra</h1>
+                    { orderId && bill ? 
+                        <Order bill={bill} /> :
+                        <div className="row">
                         <div className="col-8">
                             <div className="card">
                                 <div className="card-body">
-                                    
+                                
                                         { products.map(product => 
                                             <div className="item-row" key={product.item.id} >
                                                 <div className="item-image-wrap">
@@ -55,7 +105,7 @@ export const Cart = ()=> {
                                                         <div className="item-info-wrap">
                                                             <div className="item-info-one">
                                                                 <h6 className="item-subtitle">Cantidad</h6>
-                                                                <ItemCount stock={5} initial={ product.quantity } onAdd={onAdd} product={product} btnText={"Modificar Cantidad"}/>
+                                                                <ItemCount stock={product.item.stock} initial={ product.quantity } onAdd={onAdd} product={product} btnText={"Modificar Cantidad"}/>
                                                             </div>
                                                             <div className="item-info-two">
                                                                 <h6 className="item-subtitle">Precio Unitario</h6>
@@ -84,7 +134,7 @@ export const Cart = ()=> {
                             <div className="card">
                                 <div className="card-body">
                                     <h3>Información de compra</h3>
-                                    <form action="" method="post">
+                                    <form method="post" onSubmit={handleSubmit}>
                                         <div className="form-group">
                                             <label htmlFor="nombre">Nombre</label>
                                             <input type="text" name="nombre" />
@@ -106,7 +156,7 @@ export const Cart = ()=> {
                                             <input type="email" name="emailRepeat" />
                                         </div>
                                         <div className="form-group">
-                                            <button type="submit" className="btn btn-primary">Realizar Pedido</button>
+                                            <button type="submit" className="btn btn-primary" >Realizar Pedido</button>
                                         </div>
 
                                     </form>
@@ -120,13 +170,14 @@ export const Cart = ()=> {
                             
                         </div>
                     
-                    </div>
-                }
+                    </div> 
+         
                 
+                    }
+                </div>
+            </main>
+        )
 
-            </div>
+    }
 
-        </main>
-
-    )
 }

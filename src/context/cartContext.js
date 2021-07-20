@@ -1,18 +1,24 @@
 import { useEffect } from "react";
 import { createContext, useState } from "react"
-
+import firebase from "firebase/app";
+import 'firebase/firestore';
+import { getFirestore } from '../firebase/firebase';
 export const CartContext = createContext();
 
 export const CartProvider = ({children}) => {
-    const [user , setUser ] = useState([]);
+    //const [user , setUser ] = useState([]);
     const [products , setProducts ] = useState([])
     const [cantidadCarro, setCantidadCarro] = useState(0)
+    const [order, setOrder] = useState()
+    const [orderId, setOrderId] = useState(undefined)
+    const [total, setTotal] = useState(undefined);
+    const db = getFirestore();
 
     console.log('products:', products)
 
     function modificadorProductos(currentProduct, cantidad) {
-        console.log('En el context currentProduct(viene del detalle):', currentProduct)
-        console.log('context product id', currentProduct.id)
+        // console.log('En el context currentProduct(viene del detalle):', currentProduct)
+        // console.log('Context product id', currentProduct.id)
         const isInCart = products.some( product => product.item.id === currentProduct.id )
         if(!isInCart) { 
             // Crea un producto nuevo nuevo y lo agrega a productos
@@ -89,36 +95,95 @@ export const CartProvider = ({children}) => {
         setCantidadCarro(0)
     }
 
+    function  sumTotal(products) {
+        let number = 0;
+        products.map(product => number += product.quantity * product.item.price)
+        return setTotal(number);
+    }
+
+    function generateOrder(products, e ) {
+        let itemsArray = []
+        products.map((product)=> {
+            itemsArray.push({
+                id: product.item.id,
+                title: product.item.title,
+                price: product.item.price,
+                qnty: product.quantity,
+            })
+        })
+
+
+        setOrder(
+            {
+            buyer: {
+                name: e.target.nombre.value ,
+                lastName: e.target.apellido.value ,
+                phone: e.target.phone.value ,
+                email: e.target.email.value,
+            },
+            estado: 'Generada',
+            items: itemsArray,
+            date: firebase.firestore.Timestamp.fromDate(new Date()),
+            total: total,
+            }
+        )
+    }
+
+    function reduceStock() {
+
+        const products = db.collection("orangepaper-products");
+
+        // orders.add(newOrder).then(({id}) => {
+            
+            
+        // }).catch(err => {
+        //     console.warn('Error:', err)
+        // }).finally(()=>{
+        //     //console.log('Nueva orden terminada', newOrder )
+        //     //console.log('terminando');
+        // })
+
+    }
+
+    
+    useEffect(()=> {
+
+        let newOrder =  {...order}
+        //console.log('Nueva Orden', newOrder)
+        if( newOrder.buyer != undefined) {
+            const orders = db.collection("orders");
+            orders.add(newOrder).then(({id}) => {
+                setOrderId(id) //success
+                newOrder = {}
+                setOrder({})
+                clear()
+                
+            }).catch(err => {
+                console.warn('Error:', err)
+            }).finally(()=>{
+                //console.log('Nueva orden terminada', newOrder )
+                //console.log('terminando');
+            })
+        }
+
+    }, [order])
+
+
+
     // Escucha si hay un cambio en el estado de productos y ejecuta la función.
     useEffect(()=>{
         circuloRojoCarrito();
     }, [products])
     
 
+    
 
-    /* Nota tutor
-    * Ignorar esta parte, es para recordar como funciona el contexto
-    * lo eliminaré para la entrega final 
-    */
-    const [vegetal , setVegetal ] = useState({
-        fruta: '🍓',
-        verdura: '🥬 '
-    });
-    let testEmpy = []
-    const fruta = {
-        fruta: user.fruta
-    }
-    function setFruta(fruta) {
-        setUser({
-            fruta: fruta,
-        })
-    }
     /* Nota para mi:
     * No entiendo porque se debe enviar la información destructurada en el value.
     * ¿Cómo sería si fuera sin destructurar?  useState.user, setName, this.empy?
     * En el value solo va lo que quieres que sea accedido de manera global, no dejar la función entera. 
     */
     //return <CartContext.Provider value={{ user, fruta ,setFruta, testEmpy }}>{children}</CartContext.Provider>
-    return <CartContext.Provider value={{products, cantidadCarro, modificadorProductos, removeItem, clear, addItem}}>{children}</CartContext.Provider>
+    return <CartContext.Provider value={{products, cantidadCarro, modificadorProductos, removeItem, clear, addItem, generateOrder,sumTotal, total, orderId}}>{children}</CartContext.Provider>
 
 }

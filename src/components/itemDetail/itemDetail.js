@@ -43,7 +43,7 @@ export function ItemDetail({item}) {
                             <p className="price">${item.price}</p>
                             <p>{item.description}</p>
                         
-                            <ItemCount stock={5} initial={0} onAdd={onAdd} />
+                            <ItemCount stock={item.stock} initial={0} onAdd={onAdd} />
                             { agregado ? (<Link to="/cart" id="btnFinish" className="btn btn-primary">Terminar Compra</Link>) : ''}
                             
 

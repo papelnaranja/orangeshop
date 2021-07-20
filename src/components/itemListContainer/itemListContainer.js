@@ -20,7 +20,7 @@ export function ItemListContainer({greeting, productList}) {
         }).catch((error) => {
             console.log('Error searching items', error);
         }).finally(()=> {
-            console.log('cerrando')
+            console.log('Cerrar producto filtrado')
         })
     }
 
@@ -38,7 +38,7 @@ export function ItemListContainer({greeting, productList}) {
         }
 
     }, [categoryId]);
-    console.log('cargaProductos firebase', cargaProductos )
+    console.log('Get products Firebase', cargaProductos )
 
     return (
 
