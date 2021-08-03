@@ -23,6 +23,9 @@ body {
 a {
   color: var(--primary);
 }
+.strong {
+  font-weight: 800;
+}
 
 
 input[type=number]::-webkit-inner-spin-button, 
@@ -62,10 +65,10 @@ main {
 
 .product-category {
   padding: 4px 8px;
-  /* background-color: #6494ff; */
+  background-color: #18A9F2;
   border-radius: 9px;
-  font-weight: bold;
-  font-size: .9rem;
+  font-weight: 600;
+  font-size: 13px;
   color: white;
 
   &.category-marcadores {
@@ -78,3 +81,9 @@ main {
   }
 }
 
+.alert {
+  background-color: #ffd2d2;
+  border-radius: 5px;
+  padding: 15px;
+  font-weight: bold;
+}

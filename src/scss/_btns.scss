@@ -36,3 +36,18 @@
         background-color: lighten($secondary, 10%);
     }
 }
+
+
+.btn-secondary-fade {
+    @extend .btn;
+    background-color: #e0d3ff;
+    color:var(--secondary);
+    &:hover, &:active, &:focus {
+        background-color: lighten($secondary, 10%);
+        color:white
+    }
+    &[disabled] {
+        cursor: not-allowed;
+        background-color: lighten($secondary, 10%);
+    }
+}

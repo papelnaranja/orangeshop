@@ -2,72 +2,98 @@ import './cart.scss';
 import { CartContext } from '../../context/cartContext.js';
 import { useContext, useState, useEffect } from 'react';
 import { ItemCount } from '../itemCount/itemCount'
-import { Link, Redirect} from "react-router-dom";
-import {Order} from '../order/order'
-import firebase from "firebase/app";
-import 'firebase/firestore';
-import { getFirestore } from '../../firebase/firebase';
-import { Player } from '@lottiefiles/react-lottie-player';
-import loader from '../../lotties/loader'
+import { Link , Redirect} from "react-router-dom";
+import fields from './fields.json'
+
+
 
 export const Cart = ()=> {
-    const {products, removeItem, clear, modificadorProductos, generateOrder,orderId, sumTotal, total} = useContext(CartContext)
-    const [bill, setBill] = useState(undefined)
-    const [loader, setLoader] = useState(false)
-
+    const {
+        products, 
+        removeItem, 
+        clear, 
+        modificadorProductos, 
+        generateOrder, 
+        orderId, 
+        sumTotal,
+        total,
+        statusStock,
+        setStatusStock
+    } = useContext(CartContext)
+    const [formData, setFormData] = useState(fields)
+    const [orderStatus, setOrderStatus] = useState(false)
 
     let carro = false;
     if(products.length > 0) {
         carro = true;
     }
+
     const onAdd = (cantidad, event, product ) => {
         modificadorProductos(product.item, cantidad)
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        generateOrder(products, e)
+    const updateOnInput = (key) => (event)=> {
+        let nuevoDatos = {...formData};
+        nuevoDatos[key].value = event.target.value;
+        setFormData(nuevoDatos);
     }
 
+    const renderMensajeError = (key) => {
+        //En caso de necesitar más validaciones
+        switch (key) {
+            case 'correo':
+                //aquí va la validación del correo
+                break;
+            case 'repetirCorreo':
+                if(formData['correo'].value !== formData['repetirCorreo'].value  ) {
+                    return formData['repetirCorreo'].error
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const isComplete = Object.values(formData).every((entry) => (entry.value !== ''))
+        if(isComplete) {
+            generateOrder(products, e)
+            setOrderStatus(true);
+        }
+    }
+
+    useEffect(()=>{setOrderStatus(false)}, [])
+    useEffect(()=>{setStatusStock(undefined)}, [])
     useEffect(()=>{sumTotal(products)}, [products])
 
-    /*
-    * 🐢 Pendinete:
-    * Hay que pasarlo al cartcontext.js como función 
-    */
-    useEffect(()=>{
-        if(orderId) {
-            const db = getFirestore();
-            const firebaseOrder = db.collection('orders').doc(orderId)
-    
-            firebaseOrder.get().then((doc) => {
-            if (doc.exists) {
-                console.log("Document data:", doc.data());
-                setBill({id: doc.id, ...doc.data()})
-            } else {
-                // doc.data() will be undefined in this case
-                console.log(`la id: <${orderId}>, no se encuntra`);
-            }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
-            });
-        }
-
-    },[orderId])
-    
-    
-    /* 🐢 Pendinte: 
-    /* Hay que generar el loader y crear un componente como tal para que este más ordenado */
-    if(loader == true) {
+    if(orderStatus && orderId ){
         return(
-            <div className="loader-container">
-                <Player autoplay loop src={loader}style={{ height: '300px', width: '300px' }}></Player>
-            </div>
+            <Redirect to={`/order/${orderId}`} />
         )
     }
 
-    /* 🐢 Pendinte: 
-    /* Re-hacer esto que esta super desordenado */
+    if(statusStock !== undefined) {
+        return (
+            <main>
+                <div className="container">
+                    <h1>Algo salio mal 😐 </h1>
+                    <div className="card">
+                        <div className="card-body">
+                            <p>El siguiente producto no tiene stock sufiente para hacer la compra</p>
+                            <ul>
+                            {console.log('statusStock:', statusStock)}
+                            { statusStock.map(product => (  <li key={product.title}>{product.title}</li>)) }
+                            </ul>
+                            <p>Intenta nuevamente o ponte en contacto con la tienda</p>
+                            <Link to="/" className="btn btn-secondary">Ir al inicio</Link>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        )
+    }
+    
     if(!carro && !orderId){
         return(
             <main>
@@ -83,18 +109,17 @@ export const Cart = ()=> {
             </main>
         )
     } 
-    else {
+
+    if(carro) {
         return(
             <main>
                 <div className="container">
                     <h1>Carro de compra</h1>
-                    { orderId && bill ? 
-                        <Order bill={bill} /> :
                         <div className="row">
                         <div className="col-8">
                             <div className="card">
                                 <div className="card-body">
-                                
+                                       
                                         { products.map(product => 
                                             <div className="item-row" key={product.item.id} >
                                                 <div className="item-image-wrap">
@@ -116,7 +141,7 @@ export const Cart = ()=> {
                                                                 <p>$ { product.quantity * product.item.price}</p>
                                                             </div>
                                                         </div>
-                                                    <a className="link" onClick={()=>{removeItem(product.item.id)}}>Eliminar producto</a>
+                                                    <a href="#" className="link" onClick={()=>{removeItem(product.item.id)}}>Eliminar producto</a>
                                                 </div>
                                                 
                                             </div>
@@ -125,38 +150,28 @@ export const Cart = ()=> {
                                             <h3>Total: {total}</h3>
                                         </div>
                                         <div className="section-limpiar">
-                                            <button onClick={()=>{clear()}}>Limpiar todo</button>
+                                            <a href="#" className="btn btn-secondary-fade" onClick={()=>{clear()}}>Limpiar todo</a>
                                         </div>
                                 </div>
                             </div>
                         </div>
                         <div className="col-4">
-                            <div className="card">
+                            <div className="card formCard">
                                 <div className="card-body">
                                     <h3>Información de compra</h3>
                                     <form method="post" onSubmit={handleSubmit}>
+                                        {
+                                            Object.entries(formData).map(([key, data]) => (
+                                                <div key={key} className="form-group">
+                                                    <label htmlFor={key}>{data.label}</label>
+                                                    
+                                                    <input type={data.type} name={key} placeholder={data.placeholder} onInput={updateOnInput(key)}required={data.required}/>
+                                                    <span className="mensaje">{data.value ? renderMensajeError(key) : ''}</span>
+                                                </div>
+                                            ))
+                                        }
                                         <div className="form-group">
-                                            <label htmlFor="nombre">Nombre</label>
-                                            <input type="text" name="nombre" />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="apellido">Apellido</label>
-                                            <input type="text" name="apellido" />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="phone">Teléfono</label>
-                                            <input type="text" name="phone" />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="email">Email</label>
-                                            <input type="email" name="email" />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="emailRepeat">Repetir Email</label>
-                                            <input type="email" name="emailRepeat" />
-                                        </div>
-                                        <div className="form-group">
-                                            <button type="submit" className="btn btn-primary" >Realizar Pedido</button>
+                                            <button  name="realizarPedido" type="submit" className="btn btn-primary" >Realizar Pedido</button>
                                         </div>
 
                                     </form>
@@ -171,13 +186,11 @@ export const Cart = ()=> {
                         </div>
                     
                     </div> 
-         
-                
-                    }
+        
                 </div>
             </main>
         )
-
     }
 
 }
+

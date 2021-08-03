@@ -1,0 +1,40 @@
+{
+    "nombre": {
+        "label": "Nombre",
+        "type": "text",
+        "required": true,
+        "placeholder": "Nombre",
+        "value" : ""
+    },
+    "apellido" : {
+        "label": "Apellido",
+        "type": "text",
+        "required": true,
+        "placeholder": "Apellido",
+        "value" : ""
+    },
+    "telefono": {
+        "label": "Teléfono",
+        "type": "text",
+        "required": true,
+        "placeholder": "Teléfono",
+        "value" : ""
+    },
+    "correo":
+    {
+        "label": "Correo",
+        "type": "email",
+        "required": true,
+        "placeholder": "ejemplo@ejmplo.com",
+        "value" : ""
+    },
+    "repetirCorreo": {
+        "label": "Repetir Correo",
+        "type": "email",
+        "required": true,
+        "placeholder": "ejemplo@ejmplo.com",
+        "value" : "",
+        "error" : "El correo es diferente"
+
+    }
+}

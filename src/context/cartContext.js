@@ -6,19 +6,22 @@ import { getFirestore } from '../firebase/firebase';
 export const CartContext = createContext();
 
 export const CartProvider = ({children}) => {
-    //const [user , setUser ] = useState([]);
     const [products , setProducts ] = useState([])
     const [cantidadCarro, setCantidadCarro] = useState(0)
     const [order, setOrder] = useState()
     const [orderId, setOrderId] = useState(undefined)
     const [total, setTotal] = useState(undefined);
+    const [bill, setBill] = useState(undefined)
+    const [statusStock, setStatusStock] = useState(undefined);
+    //let orderStatus = false;
     const db = getFirestore();
 
-    console.log('products:', products)
-
+    //console.log('products:', products)
     function modificadorProductos(currentProduct, cantidad) {
+
         // console.log('En el context currentProduct(viene del detalle):', currentProduct)
         // console.log('Context product id', currentProduct.id)
+
         const isInCart = products.some( product => product.item.id === currentProduct.id )
         if(!isInCart) { 
             // Crea un producto nuevo nuevo y lo agrega a productos
@@ -33,24 +36,8 @@ export const CartProvider = ({children}) => {
             }
             setProducts([...products, nuevoItem]);
         } else {
-
-            /*
-            * 📢 Pregunta tutor:
-            * El forEach recorre el arreglo y puede modificarlo.
-            * En este caso se recorre products que es un estado, y debería modificarse usando setProducts y no directamente. 
-            * Pero si ocupo setProduct, no sé como acceder al arreglo para modificarlo 😐
-            * ¿Esta bien usada la función?
-            */
-
             // Busca el proucto y suma la cantidad y cambia el array 
             addItem(currentProduct, cantidad)
-            // products.forEach( product => {
-            //     if(product.item.id == currentProduct[0].id ) {
-            //        return product.quantity += cantidad
-            //     }
-            // })
-            // setProducts([...products]);
-
         }
 
     }
@@ -64,15 +51,17 @@ export const CartProvider = ({children}) => {
                 total += product.quantity
             })
         } 
-        console.log('total:', total)
+        //console.log('total:', total)
         setCantidadCarro(total)
     }
     
     // Agregar cierta cantidad de un ítem al carrito
     function addItem(currentProduct, cantidad) {
+
         // En teoria: agregaría un item y le sumaría la cantidad.
         products.forEach( product => {
-            if(product.item.id == currentProduct.id ) {
+            if(product.item.id === currentProduct.id ) {
+
                //return product.quantity += cantidad
                /* No va sumar la nueva cantidad, si no que remplazará la actual */
                 return product.quantity = cantidad
@@ -82,13 +71,11 @@ export const CartProvider = ({children}) => {
 
     }
 
-    // Remover un item del cart por usando su id.
     function removeItem(currentProductId) {
-        // En teoria: filta y regresa lo que es distinto
+        //filta y regresa lo que es distinto
         setProducts(products.filter(product => product.item.id !== currentProductId))
     }
 
-    // Remover todos los products
     function clear() {
         // En toeria: limpia el array de productos.
         setProducts([]);
@@ -111,15 +98,14 @@ export const CartProvider = ({children}) => {
                 qnty: product.quantity,
             })
         })
-
-
+        //console.log('buyer e', e)
         setOrder(
             {
             buyer: {
                 name: e.target.nombre.value ,
                 lastName: e.target.apellido.value ,
-                phone: e.target.phone.value ,
-                email: e.target.email.value,
+                phone: e.target.telefono.value ,
+                email: e.target.correo.value,
             },
             estado: 'Generada',
             items: itemsArray,
@@ -129,61 +115,117 @@ export const CartProvider = ({children}) => {
         )
     }
 
-    function reduceStock() {
+    /* Nota para mi:
+    * Las funciones asincronas se ejecutan inmediatamente ? */
+   /* Los tems debe venir de orden.items */
+    async function cheackAndReduceStock(items) {
+        //console.log('ReduceStock items:', items)
 
-        const products = db.collection("orangepaper-products");
+        if(items !== undefined) {
+            const itemsToUpdate = db.collection("orangepaper-products")
+                .where(firebase.firestore.FieldPath.documentId(), 'in', items.map(item => item.id));
 
-        // orders.add(newOrder).then(({id}) => {
-            
-            
-        // }).catch(err => {
-        //     console.warn('Error:', err)
-        // }).finally(()=>{
-        //     //console.log('Nueva orden terminada', newOrder )
-        //     //console.log('terminando');
-        // })
+            const query = await itemsToUpdate.get();
+            const batch = db.batch();
+            const outOfStock = []
 
+            query.docs.forEach((docSnapshot, index)=> {
+                if( docSnapshot.data().stock >= items[index].qnty) {
+                    batch.update(docSnapshot.ref , { stock: docSnapshot.data().stock - items[index].qnty})
+                } else {
+                    outOfStock.push({id: docSnapshot.id, title: docSnapshot.data().title, stock: docSnapshot.data().stock  })
+                }
+            })
+            if(outOfStock.length === 0 ) {
+                await batch.commit() 
+                return true;
+            } else {
+                setStatusStock(outOfStock)
+                return false;
+            }
+        }
     }
 
+
+    function getOrderBill(orderId) {
+        const db = getFirestore();
+        const firebaseOrder = db.collection('orders').doc(orderId)
+        firebaseOrder.get()
+            .then((doc) => {
+                if (doc.exists) {
+                    //console.log("Document data:", doc.data());
+                    setBill({id: doc.id, ...doc.data()})
+                } else {
+                    console.log(`la id: <${orderId}>, no se encuntra`);
+                    setBill(false)
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+    }
     
+    function updateNewOrder(newOrder) {
+        const orders = db.collection("orders");
+        orders.add(newOrder).then(({id}) => {
+            setOrderId(id) //exito
+            //limpiar
+            newOrder = {}
+            setOrder({})
+            clear()
+        }).catch(err => {
+            console.warn('Error:', err)
+        }).finally(()=>{
+            console.log('Nueva orden terminada', newOrder )
+        })     
+    }
+
     useEffect(()=> {
-
+        let isMounted = true; 
         let newOrder =  {...order}
-        //console.log('Nueva Orden', newOrder)
-        if( newOrder.buyer != undefined) {
-            const orders = db.collection("orders");
-            orders.add(newOrder).then(({id}) => {
-                setOrderId(id) //success
-                newOrder = {}
-                setOrder({})
-                clear()
-                
-            }).catch(err => {
-                console.warn('Error:', err)
-            }).finally(()=>{
-                //console.log('Nueva orden terminada', newOrder )
-                //console.log('terminando');
-            })
+        if(newOrder) {
+            cheackAndReduceStock(newOrder.items)
+                //espera a que termine de checkear y reducir el stock
+                .then((result) => {
+                    //console.log('result:', result )
+                    if( newOrder.buyer !== undefined && statusStock === undefined && result && isMounted ) {                        
+                        updateNewOrder(newOrder)
+                    }
+                }).catch(error => {
+                    console.warn('Error en stock:' , error)
+                })
         }
-
+        return () => { isMounted = false }
     }, [order])
-
-
 
     // Escucha si hay un cambio en el estado de productos y ejecuta la función.
     useEffect(()=>{
         circuloRojoCarrito();
     }, [products])
     
+    useEffect(()=>{
+        // Limpia el carro si no hay stock de un producto
+        if(statusStock !== undefined) {
+            console.log('Limpiado')
+            setOrder({})
+            clear()  
+        }
+    }, [statusStock])
 
-    
-
-    /* Nota para mi:
-    * No entiendo porque se debe enviar la información destructurada en el value.
-    * ¿Cómo sería si fuera sin destructurar?  useState.user, setName, this.empy?
-    * En el value solo va lo que quieres que sea accedido de manera global, no dejar la función entera. 
-    */
-    //return <CartContext.Provider value={{ user, fruta ,setFruta, testEmpy }}>{children}</CartContext.Provider>
-    return <CartContext.Provider value={{products, cantidadCarro, modificadorProductos, removeItem, clear, addItem, generateOrder,sumTotal, total, orderId}}>{children}</CartContext.Provider>
+    return <CartContext.Provider value={{
+        modificadorProductos, 
+        removeItem, 
+        clear, 
+        addItem, 
+        generateOrder,
+        sumTotal, 
+        getOrderBill,
+        setStatusStock,
+        statusStock,
+        products, 
+        cantidadCarro, 
+        bill, 
+        total, 
+        orderId
+    }}>{children}</CartContext.Provider>
 
 }

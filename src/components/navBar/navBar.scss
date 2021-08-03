@@ -21,35 +21,95 @@
     max-width: 100%;
     height: auto;
 }
+#mainNavbar .navbar-wrap {
+    display: flex;
+    position: fixed;
+    visibility: hidden;
+    opacity: 0;
+    justify-content: center;
+    align-items: center;
+    top: 0px;
+    left:0;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: #ffffffd1;
+    transition: opacity .5s ease-in-out; 
+    &.show {
+        visibility: visible;
+        z-index: 99;
+        opacity: 1;
+        transition: opacity .5s ease-in-out; 
+
+    }
+    @include min-lg {
+        display: block;
+        position: relative;
+        visibility: visible;
+        opacity: 1;
+
+        height: auto;
+        padding: 0;
+        background: transparent;
+        width: auto;
+    }
+    
+  }
+
+
+
 
 #mainNavbar ul.navbar-nav {
-    display: none;
+    display: block;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
     @include min-lg {
-        list-style: none;
-        padding: 0px;
         display: flex;
+        text-align: left;
     }
 }
 
-.offcanvas #mainNavbar ul.navbar-nav {
-    position: fixed;
+.btn-menu {
     display: block;
-    padding: 20px;
-    top: 0;
-    right: 0;
-    list-style: none;
-    width: 250px;
-    background-color: white;
-    margin: 0px;
-    height: 100%;
+    cursor: pointer;
+    background: transparent;
+    border:0;
+    @include min-lg {
+        display: none;
+    }
+}
+
+button.btn-close {
+    display: none;
+}
+
+.show button.btn-close {
+    border: 0px;
+    font-size: 35px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    cursor: pointer;
     display: block;
 }
 
 li.nav-item {
-    margin-right: 10px;
-    &:last-child {
-        margin-right: 0px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    @include min-lg{
+        margin-right: 10px;
+        margin-bottom: 0;
+        font-size:1rem;
+        &:last-child {
+            margin-right: 0px;
+        }
     }
+
 }
 a.nav-link {
     color: var(--dark);
