@@ -13,6 +13,7 @@ export const CartProvider = ({children}) => {
     const [total, setTotal] = useState(undefined);
     const [bill, setBill] = useState(undefined)
     const [statusStock, setStatusStock] = useState(undefined);
+    const [statusOrder, setStatusOrder] = useState(0);
     //let orderStatus = false;
     const db = getFirestore();
 
@@ -155,9 +156,10 @@ export const CartProvider = ({children}) => {
                 if (doc.exists) {
                     //console.log("Document data:", doc.data());
                     setBill({id: doc.id, ...doc.data()})
+                    setStatusOrder(1)
                 } else {
                     console.log(`la id: <${orderId}>, no se encuntra`);
-                    setBill(false)
+                    setStatusOrder(2)
                 }
             }).catch((error) => {
                 console.log("Error getting document:", error);
@@ -220,6 +222,7 @@ export const CartProvider = ({children}) => {
         sumTotal, 
         getOrderBill,
         setStatusStock,
+        statusOrder,
         statusStock,
         products, 
         cantidadCarro, 

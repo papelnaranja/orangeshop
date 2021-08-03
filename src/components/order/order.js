@@ -10,21 +10,16 @@ import './order.scss'
 export const Order = () => {
 
     const { orderId } = useParams()
-    const {getOrderBill, bill} = useContext(CartContext)
+    const {getOrderBill, bill,statusOrder } = useContext(CartContext)
+
 
     useEffect(()=>{
         getOrderBill(orderId)
         
     },[])
 
-    switch (bill){
-        case undefined:
-            return(<Loader />)
-        case false:
-            return(
-               <NoMatch mensaje="Esta Orden no existe" />
-            )
-        default:
+    switch (statusOrder){
+        case 1:
             return(
                 <main>
                     <div className="container">
@@ -84,6 +79,15 @@ export const Order = () => {
                     </div> 
 
                 </main>
+            )
+        case 2:
+            return(
+               <NoMatch mensaje="Esta Orden no existe" />
+            )
+        default:
+            return(
+                <Loader />
+                
             )
     }
 }
