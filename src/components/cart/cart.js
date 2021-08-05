@@ -8,6 +8,7 @@ import fields from './fields.json'
 
 
 export const Cart = ()=> {
+
     const {
         products, 
         removeItem, 
@@ -21,7 +22,7 @@ export const Cart = ()=> {
         setStatusStock
     } = useContext(CartContext)
     const [formData, setFormData] = useState(fields)
-    const [orderStatus, setOrderStatus] = useState(false)
+    const [orderStatus, setOrderStatus] = useState(false);
 
     let carro = false;
     if(products.length > 0) {
@@ -69,7 +70,9 @@ export const Cart = ()=> {
 
     if(orderStatus && orderId ){
         return(
-            <Redirect to={`/order/${orderId}`} />
+            <>
+                <Redirect to={`/order/${orderId}`} />
+            </>
         )
     }
 

@@ -222,6 +222,7 @@ export const CartProvider = ({children}) => {
         sumTotal, 
         getOrderBill,
         setStatusStock,
+        setOrderId,
         statusOrder,
         statusStock,
         products, 

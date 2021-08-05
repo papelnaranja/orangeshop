@@ -10,12 +10,13 @@ import './order.scss'
 export const Order = () => {
 
     const { orderId } = useParams()
-    const {getOrderBill, bill,statusOrder } = useContext(CartContext)
+    const {getOrderBill, bill,statusOrder, setOrderId } = useContext(CartContext)
 
 
     useEffect(()=>{
         getOrderBill(orderId)
-        
+        //limpia la orden para que no se repita en el siguiente pedido
+        setOrderId(undefined)
     },[])
 
     switch (statusOrder){
