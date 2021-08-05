@@ -16,7 +16,7 @@ import {Loader} from './components/loader/loader'
 export const App  = () => {
     const [categories,  setCategories] = useState(undefined)
     const [productList, setProductList] = useState(undefined)
-    const saludos = `Esta es mi nueva Tienda 🎀 📐`; 
+    const bannerUrl = 'https://res.cloudinary.com/dgl0xcdwf/image/upload/v1628130244/shop/banner_hqaedb.jpg'; 
 
 
     /* Hace la llamda para la categorías del menu y 
@@ -64,7 +64,7 @@ export const App  = () => {
                     <NavBar categories={categories}/>
                     <Switch>
                         <Route exact path="/">
-                            <ItemListContainer greeting={saludos} productList={productList}/>
+                            <ItemListContainer banner={bannerUrl} productList={productList}/>
                         </Route>
                         <Route path="/category/:categoryId" >
                             <ItemListContainer  />

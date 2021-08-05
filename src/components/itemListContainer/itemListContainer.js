@@ -5,7 +5,7 @@ import { getFirestore } from '../../firebase/firebase';
 
 
 
-export function ItemListContainer({greeting, productList}) {
+export function ItemListContainer({banner, productList}) {
     const {categoryId} = useParams();
     const [cargaProductos, setCargaProductos] = useState(undefined)
     const [categoryName, setCategoryName]  = useState(undefined)
@@ -56,11 +56,18 @@ export function ItemListContainer({greeting, productList}) {
             
             <section className="home-slider">
                 <div className="container">
-                    <div className="card">
-                        <div className="card-body">
-                            <h1 className="text-center">{ categoryId ? categoryName : greeting}</h1>
+                    {
+                        categoryId ? (
+                        <div className="card">
+                            <div className="card-body">
+                                <h1 className="text-center">{categoryName}</h1>
+                            </div>
                         </div>
-                    </div>
+                        ) : (
+                           <img src={banner} style={ {width: '100%', borderRadius : '18px'} }/>
+                        ) 
+                    }
+
                 </div>
             </section>
 
