@@ -64,7 +64,7 @@ export function Home() {
                             cargaCategories.map(({slug, title, imageUrl, imageAlt})=>(
                                 <div key={slug} className="col-4">
                                     <div id={slug} className="card card-featured-cat">
-                                        <Link  to={`/cateogry/${slug}`}>
+                                        <Link  to={`/category/${slug}`}>
                                             <img className="card-fetaured-image" src={imageUrl} alt={imageAlt} />
                                         </Link>
                                         <div className="card-body">

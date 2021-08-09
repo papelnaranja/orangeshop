@@ -1,25 +1,25 @@
+$gutter: 14px;
 
 .container {
-    --gutter: 14px;
     display:block;
     margin:0 auto;
     width: 100%;
     max-width: 1400px;
-    padding-right: calc(var(--gutter) /2);
-    padding-left: calc(var(--gutter) /2);
+    padding-right: calc(#{$gutter}/2);
+    padding-left: calc(#{$gutter}/2);
 
 }
 
 .row {
     display: flex;
     flex-wrap: wrap;
-    margin-right: calc(-(var(--gutter) /2));
-    margin-left: calc(-(var(--gutter) / 2));
+    margin-right: calc(-#{$gutter}/2);
+    margin-left: calc(-#{$gutter}/2);
 }
 
 .col {
-    padding-left: calc(var(--gutter)/2);
-    padding-right: calc(var(--gutter)/2);
+    padding-left: calc(#{$gutter}/2);
+    padding-right: calc(#{$gutter}/2);
     width:100%;
 }
 .col-3 {
