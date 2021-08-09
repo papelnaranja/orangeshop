@@ -10,6 +10,7 @@ ReactDOM.render(
     <CartProvider>
       <App />
     </CartProvider>
+
   </React.StrictMode>,
   document.getElementById('root')
 );

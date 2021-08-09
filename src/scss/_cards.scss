@@ -2,6 +2,7 @@
     background-color: white;
     border-radius: 15px;
     width: 100%;
+    position: relative;
 }
 
 .card-body {
@@ -29,4 +30,16 @@
 }
 .card-featured-product {
     margin-bottom:2rem;
+}
+
+.label-featured {
+    position: absolute;
+    background-color: var(--red);
+    padding: 5px;
+    top: 30px;
+    left:0px;
+    font-weight: 800;
+    font-size: .9rem;
+    color:white;
+    border-radius: 0px 8px 8px 0px;
 }

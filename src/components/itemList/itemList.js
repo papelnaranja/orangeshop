@@ -2,7 +2,11 @@ import React from 'react';
 import {Item} from '../item/item.js'
 import {Loader} from '../loader/loader'
 
-export function ItemList({productos}) {
+export function ItemList({productos, featured}) {
+    let isFeatured = false;
+    if(featured) {
+        isFeatured = featured
+    }
     switch (productos){
         case undefined:
             return(<Loader />)
@@ -17,7 +21,16 @@ export function ItemList({productos}) {
         default:
             return(
                 <div className="row">
-                    { productos.map( item => <Item key={item.id} id={item.id} title={item.title} pictureUrl={item.picture} pictureAlt={item.pictureAlt} price={item.price} cat={item.cat}  catName={item.catName}/> )}
+                    { productos.map( ({id, cat, catName, title, picture, pictureAlt, price}) => (
+                            isFeatured ? ( 
+                                <div  key={id} className="col-3">
+                                    <Item id={id} featured={true} title={title} pictureUrl={picture} pictureAlt={pictureAlt} price={price} cat={cat}  catName={catName}/> 
+                                </div>  ):( 
+                                <div key={id} className="col-4">
+                                    <Item id={id} featured={false} title={title} pictureUrl={picture} pictureAlt={pictureAlt} price={price} cat={cat}  catName={catName}/> 
+                                </div>  
+                                )
+                        ))}
                 </div>
             )
     }

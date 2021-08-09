@@ -5,6 +5,7 @@ import { getFirestore } from '../../firebase/firebase';
 
 
 
+
 export function ItemListContainer({banner, productList}) {
     const {categoryId} = useParams();
     const [cargaProductos, setCargaProductos] = useState(undefined)
@@ -36,6 +37,8 @@ export function ItemListContainer({banner, productList}) {
     useEffect(() => {
 
         let isMounted = true; 
+        console.log('CategoryId?:', categoryId);
+        console.log('ProductsList?:', productList);
         //En caso de que exista una categoría se hace la llamada filtrada
         if(categoryId) {
             const db = getFirestore();
@@ -54,7 +57,7 @@ export function ItemListContainer({banner, productList}) {
 
         <main>
             
-            <section className="home-slider">
+            <section className="banner">
                 <div className="container">
                     {
                         categoryId ? (
@@ -71,7 +74,7 @@ export function ItemListContainer({banner, productList}) {
                 </div>
             </section>
 
-            <section className="home-featured">
+            <section className="product-list">
                 <h2 className="section-title">{ categoryId ? 'Catalogo' : 'Todos los productos'}</h2>
                 <div className="container">
                     <ItemList productos={cargaProductos} />   

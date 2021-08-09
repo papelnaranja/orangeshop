@@ -46,6 +46,7 @@ img.img-fluid {
 main {
   display: block;
   margin-top: 80px;
+  min-height: 100vh;
 }
 
 .home-slider  {
@@ -86,4 +87,17 @@ main {
   border-radius: 5px;
   padding: 15px;
   font-weight: bold;
+}
+
+.loader-container {
+  display: flex;
+  height: 100%;
+  background-color: var(--primary-light);
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100vw;
+  z-index: 999;
+  top:0;
+
 }
